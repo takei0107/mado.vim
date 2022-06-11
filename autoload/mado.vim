@@ -11,7 +11,7 @@ function! s:get_appeared_winnr_list() abort
   let winnrs = []
   let bufnrs = s:get_appeared_bufnr_list()
   for bufnr in bufnrs
-    let winnr = bufwinnr(str2nr(bufnr))
+    let winnr = bufwinnr(bufnr)
     call add(winnrs, winnr)
   endfor
   return sort(winnrs, 'n')
@@ -25,7 +25,7 @@ function! s:get_appeared_bufnr_list() abort
   let splited = split(copy(buffers), '\n')
   for buf in splited
     let trimed = trim(buf)
-    let bufnr = trim(split(trimed, '\s\+')[0], 'u')
+    let bufnr = str2nr(trim(split(trimed, '\s\+')[0], 'u'))
     call add(bufnrs, bufnr)
   endfor
   return sort(bufnrs, 'n')
