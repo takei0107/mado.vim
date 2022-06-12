@@ -18,3 +18,10 @@ call dein#add('takei0107/mado.vim')
 :MadoHide
 </pre>
 
+### settings
+<pre>
+# popup height (default: 3)
+let g:mado#height = 5
+# popup width (default: 5 + Numer of digits of winnr - 1) 
+let g:mado#width = 6
+</pre>

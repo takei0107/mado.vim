@@ -43,8 +43,8 @@ endfunction
 function! s:show_float(winnr, winid)
   let buf = nvim_create_buf(v:false, v:true)
   let winnr_str = string(a:winnr)
-  let height = 3
-  let width = 5 + (strlen(winnr_str) - 1)
+  let height = get(g:, 'mado#height', 3)
+  let width = get(s:, 'mado#width', 5 + (strlen(winnr_str) - 1))
   let win_width = nvim_win_get_width(a:winid)
   let start_col = win_width - width
   let pos_x = float2nr(ceil(width / 2))
