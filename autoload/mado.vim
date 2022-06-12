@@ -32,20 +32,39 @@ function! s:get_appeared_bufnr_list() abort
 endfunction
 
 function! s:show_float(winnr, winid)
-  let win_width = nvim_win_get_width(a:winid)
-  " FIXME col,row算出
-  let start_col = (win_width / 2) - 1
-  let win_height = nvim_win_get_height(a:winid)
-  let start_row = (win_height / 2) - 1
   let buf = nvim_create_buf(v:false, v:true)
-  call nvim_buf_set_lines(buf, 0, -1, v:true, [string(a:winnr)])
+  let winnr_str = string(a:winnr)
+  let height = 3
+  let width = 5 + (strlen(winnr_str) - 1)
+  let win_width = nvim_win_get_width(a:winid)
+  let start_col = win_width - width
+  let pos_x = float2nr(ceil(width / 2))
+  let pos_y = float2nr(ceil(height / 2))
+  let text = ''
+  let i = 0
+  while i < height
+    let j = 0 
+    while j < width
+      if i == pos_y && j == pos_x
+        let text = text .. winnr_str
+      else
+        let text = text .. ' '
+      endif
+      let j = j + 1
+    endwhile
+    if j < height - 1 
+      let text = text .. '\n'
+    endif
+    let i = i + 1
+  endwhile
+  call nvim_buf_set_lines(buf, 0, -1, v:true, [text])
   let opts = {
     \ 'relative' : 'win',
     \ 'win' : a:winid,
-    \ 'height' : 3,
-    \ 'width' : 9,
+    \ 'height' : height,
+    \ 'width' : width,
     \ 'col' : start_col,
-    \ 'row' : start_row,
+    \ 'row' : 0,
     \ 'focusable' : v:false,
     \}
   let float_win = nvim_open_win(buf, v:false, opts)
