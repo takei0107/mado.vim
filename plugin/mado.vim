@@ -11,7 +11,7 @@ command! -nargs=0 MadoHide call mado#hide_mado()
 
 augroup mado
   au!
-  autocmd WinScrolled * call mado#hide_mado()
+  autocmd WinNew,WinClosed,WinEnter,WinScrolled * call mado#hide_mado()
 augroup END
 
 let &cpo = s:save_cpo
