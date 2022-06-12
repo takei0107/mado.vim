@@ -14,5 +14,7 @@ call dein#add('takei0107/mado.vim')
 <pre>
 # show all winnr
 :MadoShow
+# hide all winnr
+:MadoHide
 </pre>
 

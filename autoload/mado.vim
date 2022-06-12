@@ -1,9 +1,18 @@
 " TODO 検討:引数の値で特定のウィンドウ or バッファのwinnrを返す？
 function! mado#show_mado() abort
+  call mado#hide_mado()
   let appeared_winnrs = s:get_appeared_winnr_list()
   for winnr in appeared_winnrs
     let winid = win_getid(winnr)
     call s:show_float(winnr, winid)
+  endfor
+endfunction
+
+function! mado#hide_mado() abort
+  let cached = copy(s:cached_float_wins)
+  call s:clear_cache()
+  for float_win in cached
+    call nvim_win_close(float_win, v:true)
   endfor
 endfunction
 
@@ -68,4 +77,14 @@ function! s:show_float(winnr, winid)
     \ 'focusable' : v:false,
     \}
   let float_win = nvim_open_win(buf, v:false, opts)
+  call s:cache_float_win(float_win)
+endfunction
+
+let s:cached_float_wins = []
+function! s:cache_float_win(float_win) abort
+  call add(s:cached_float_wins, a:float_win)
+endfunction
+
+function! s:clear_cache() abort
+  let s:cached_float_wins = []
 endfunction
